@@ -1,4 +1,3 @@
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.urls import resolve, reverse
 from django.test import TestCase
@@ -24,11 +23,24 @@ class SignUpTests(TestCase):
         form = self.response.context.get('form')
         self.assertIsInstance(form, SignUpForm)
 
+    def test_form_inputs(self):
+        '''
+        The view must contain five inputs: csrf, username, email,
+        password1, password2
+        '''
+        self.assertContains(self.response, '<input', 5)
+        self.assertContains(self.response, 'type="text"', 1)
+        self.assertContains(self.response, 'type="email"', 1)
+        self.assertContains(self.response, 'type="password"', 2)
+
+
+
 class SuccessfulSignUpTests(TestCase):
     def setUp(self):
         url = reverse('signup')
         data = {
             'username': 'Cj',
+            'email': 'hossamcj@gmial.com',
             'password1': 'hossamcj011',
             'password2': 'hossamcj011'
         }
@@ -58,11 +70,11 @@ class SuccessfulSignUpTests(TestCase):
 class InvalidSignUpTests(TestCase):
     def setUp(self):
         url = reverse('signup')
-        self.response = self.client.post(url, {}) # submit the empty dictionary
+        self.response = self.client.post(url, {})  # submit an empty dictionary
 
     def test_signup_status_code(self):
         '''
-        An invalid form submission should return the same page
+        An invalid form submission should return to the same page
         '''
         self.assertEquals(self.response.status_code, 200)
 
@@ -72,4 +84,3 @@ class InvalidSignUpTests(TestCase):
 
     def test_dont_create_user(self):
         self.assertFalse(User.objects.exists())
-
