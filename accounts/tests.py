@@ -39,10 +39,10 @@ class SuccessfulSignUpTests(TestCase):
     def setUp(self):
         url = reverse('signup')
         data = {
-            'username': 'Cj',
-            'email': 'hossamcj@gmial.com',
-            'password1': 'hossamcj011',
-            'password2': 'hossamcj011'
+            'username': 'naima',
+            'email': 'naimaallen@gmail.com',
+            'password1': 'coretabs0',
+            'password2': 'coretabs0'
         }
         self.response = self.client.post(url, data)
         self.home_url = reverse('home')
