@@ -25,7 +25,6 @@ class HomeTests(TestCase):
         self.assertContains(self.response, 'href="{0}"'.format(board_topics_url))
 
 
-
 class BoardTopicsTests(TestCase):
     def setUp(self):
         Board.objects.create(name='Django', description='Django board.')
